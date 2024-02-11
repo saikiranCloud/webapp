@@ -136,7 +136,7 @@ def register():
         user = user_data.query.filter_by(email=user_email).first()
         user_info = {
         'id': user.id,
-        'email': user.email,
+        'username': user.email,
         'first_name': user.first_name,
         'last_name': user.last_name,
         'account_created': user.account_created,
@@ -173,7 +173,7 @@ def get_user():
 
     user_info = {
         'id': user.id,
-        'email': user.email,
+        'username': user.email,
         'first_name': user.first_name,
         'last_name': user.last_name,
         'account_created': user.account_created,

@@ -5,6 +5,7 @@ on:
 
 env:
   HOST: localhost
+  MYSQL_ROOT_PASSWORD : root
   DB_USER: cloud
   DB_PASSWORD: Cloud123
   DB_NAME: cloud
@@ -19,10 +20,10 @@ jobs:
     - name: Configure MySQL
       run: |
         sudo service mysql start
-        sudo mysql -u root -e "CREATE DATABASE IF NOT EXISTS cloud;"
-        sudo mysql -u root -e "CREATE USER IF NOT EXISTS cloud@'localhost' IDENTIFIED BY Cloud123;"
-        sudo mysql -u root -e "GRANT ALL PRIVILEGES ON cloud.* TO cloud@'localhost';"
-        sudo mysql -u root -e "FLUSH PRIVILEGES;"
+        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS cloud;"
+        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS cloud@'localhost' IDENTIFIED BY Cloud123;"
+        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON cloud.* TO cloud@'localhost';"
+        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
     - name: Set up Python
       uses: actions/setup-python@v2
       with:

@@ -47,7 +47,7 @@ jobs:
     - name: Run Flask Application
       run: |
         export DB_USER=Cloud
-        export DB_USER_PASSWORD=Cloud123
+        export DB_PASSWORD=Cloud123
         export DB_NAME=Cloud
         python main.py
       

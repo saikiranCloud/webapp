@@ -49,8 +49,9 @@ jobs:
         export DB_USER=Cloud
         export DB_PASSWORD=Cloud123
         export DB_NAME=Cloud
-        python main.py
+        python main.py &
       
-    - name: Run Integration Test
+    - name: Wait and Run Integration Test
       run: |
+        sleep 15
         python tests/integration.py

@@ -59,8 +59,8 @@ def health_check():
         response = make_response("", 405)
         response.headers['Cache-Control'] = 'no-cache'
         return response
-    if request.get_data():
-        response = make_response("", 404)
+    if request.get_data() or request.args:
+        response = make_response("", 400)
         response.headers['Cache-Control'] = 'no-cache'
         return response
     else:
@@ -77,9 +77,9 @@ def method_not_allowed_error(error):
     response.headers['Cache-Control'] = 'no-cache'
     return response
 
-@app.errorhandler(401)
-def unauthorized_error(error):
-    response = make_response("",401)
+@auth.error_handler
+def unauthorized():
+    response = make_response(jsonify({"error": "Authentication failed"}), 401)
     response.headers['Cache-Control'] = 'no-cache'
     return response
 
@@ -196,9 +196,15 @@ def update_user():
         return response
 
     update_data = request.get_json()
-    new_first_name = update_data.get('first_name')
-    new_last_name = update_data.get('last_name')
-    new_password = update_data.get('password')
+    valid_keys = ['password', 'first_name', 'last_name']
+    are_keys_valid = all(key in valid_keys for key in update_data.keys())
+    if are_keys_valid :
+        new_first_name = update_data.get('first_name')
+        new_last_name = update_data.get('last_name')
+        new_password = update_data.get('password')
+    else:
+        response = make_response("", 400)
+        return response
 
     if not new_first_name or not new_last_name or (new_password and len(new_password) < 6):
         response = make_response("", 400)
@@ -216,7 +222,7 @@ def update_user():
 
     try:
         db.session.commit()
-        response = make_response("", 200)
+        response = make_response("", 204)
         return response
     except IntegrityError:
         db.session.rollback()
@@ -224,4 +230,4 @@ def update_user():
         return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)

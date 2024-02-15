@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  HOST: ${{ secrets.HOST }}
+  HOST: localhost
   DB_USER: cloud
   DB_PASSWORD: Cloud123
   DB_NAME: cloud

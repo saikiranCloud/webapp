@@ -42,7 +42,7 @@ jobs:
       run: |
         echo "Waiting for MySQL to start"
         sleep 30
-        mysql -h 127.0.0.1 -P 3306 -u Cloud -p Cloud123 Cloud
+        mysql -h 127.0.0.1 -P 3306 -u Cloud -pCloud123 Cloud
 
     - name: Run Flask Application
       run: |

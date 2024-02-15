@@ -11,10 +11,10 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: Data123
-          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-          MYSQL_USER: ${{ secrets.DB_USER }}
-          MYSQL_PASSWORD: ${{ secrets.DB_USER_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: Cloud123
+          MYSQL_DATABASE: Cloud
+          MYSQL_USER: Cloud
+          MYSQL_PASSWORD: Cloud123
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -42,17 +42,13 @@ jobs:
       run: |
         echo "Waiting for MySQL to start"
         sleep 30
-        export DB_PASSWORD="${{ secrets.DB_USER_PASSWORD }}"
-        echo "DB_USER: ${{ secrets.DB_USER }}"
-        echo "DB_USER_PASSWORD: ${{ secrets.DB_USER_PASSWORD }}"
-        echo "DB_NAME: ${{ secrets.DB_NAME }}"
-        mysql -h 127.0.0.1 -P 3306 -u ${{ secrets.DB_USER }} -p"${DB_PASSWORD}" ${{ secrets.DB_NAME }}
+        mysql -h 127.0.0.1 -P 3306 -u Cloud -p Cloud123 Cloud
 
     - name: Run Flask Application
       run: |
-        export DB_USER=${{ secrets.DB_USER }}
-        export DB_USER_PASSWORD=${{ secrets.DB_USER_PASSWORD }}
-        export DB_NAME=${{ secrets.DB_NAME }}
+        export DB_USER=Cloud
+        export DB_USER_PASSWORD=Cloud123
+        export DB_NAME=Cloud
         python main.py
       
     - name: Run Integration Test

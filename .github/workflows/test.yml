@@ -18,12 +18,11 @@ jobs:
       uses: actions/checkout@v2
     - name: Configure MySQL
       run: |
-       sudo service mysql start
-       sudo mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
-       sudo mysql -u root -proot -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
-       sudo mysql -u root -proot -e "GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO '${{ secrets.DB_USER }}'@'localhost';"
-       sudo mysql -u root -proot -e "FLUSH PRIVILEGES;"
-       
+        sudo service mysql start
+        sudo mysql -u root -pRootPassword -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
+        sudo mysql -u root -pRootPassword -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
+        sudo mysql -u root -pRootPassword -e "GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO '${{ secrets.DB_USER }}'@'localhost';"
+        sudo mysql -u root -pRootPassword -e "FLUSH PRIVILEGES;"
     - name: Set up Python
       uses: actions/setup-python@v2
       with:

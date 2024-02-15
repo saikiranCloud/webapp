@@ -43,6 +43,9 @@ jobs:
         echo "Waiting for MySQL to start"
         sleep 30
         export DB_PASSWORD="${{ secrets.DB_USER_PASSWORD }}"
+        echo "DB_USER: ${{ secrets.DB_USER }}"
+        echo "DB_USER_PASSWORD: ${{ secrets.DB_USER_PASSWORD }}"
+        echo "DB_NAME: ${{ secrets.DB_NAME }}"
         mysql -h 127.0.0.1 -P 3306 -u ${{ secrets.DB_USER }} -p"${DB_PASSWORD}" ${{ secrets.DB_NAME }}
 
     - name: Run Flask Application

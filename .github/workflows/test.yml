@@ -5,9 +5,9 @@ on:
 
 env:
   HOST: ${{ secrets.HOST }}
-  DB_USER: ${{ secrets.DB_USER }}
-  DB_PASSWORD: ${{ secrets.DB_USER_PASSWORD }}
-  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_USER: cloud
+  DB_PASSWORD: Cloud123
+  DB_NAME: cloud
 
 jobs:
   test:
@@ -18,10 +18,10 @@ jobs:
       uses: actions/checkout@v2
     - name: Configure MySQL
       run: |
-       sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
-       sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
-       sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO '${{ secrets.DB_USER }}'@'localhost';"
-       sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "FLUSH PRIVILEGES;"
+       sudo mysql -u root -p"root" -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
+       sudo mysql -u root -p"root" -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
+       sudo mysql -u root -p"root" -e "GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO '${{ secrets.DB_USER }}'@'localhost';"
+       sudo mysql -u root -p"root" -e "FLUSH PRIVILEGES;"
        
     - name: Set up Python
       uses: actions/setup-python@v2

@@ -42,7 +42,7 @@ jobs:
       run: |
         echo "Waiting for MySQL to start"
         sleep 30
-        mysql -h 127.0.0.1 -P 3306 -u ${{ secrets.DB_USER }} -p"${{ secrets.DB_USER_PASSWORD }}" ${{ secrets.DB_NAME }} < init_db_script.sql
+        mysql -h 127.0.0.1 -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} < $GITHUB_WORKSPACE/init_db_script.sql
 
     - name: Run Flask Application
       run: |

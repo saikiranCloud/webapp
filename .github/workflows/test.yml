@@ -4,11 +4,7 @@ on:
   pull_request:
 
 env:
-  HOST: localhost
-  MYSQL_ROOT_PASSWORD : root
-  DB_USER: cloud
-  DB_PASSWORD: Cloud123
-  DB_NAME: cloud
+  HOST: ${{ secrets.HOST }}
 
 jobs:
   test:
@@ -20,10 +16,10 @@ jobs:
     - name: Configure MySQL
       run: |
         sudo service mysql start
-        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS cloud;"
-        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS cloud@'localhost' IDENTIFIED BY 'Cloud123';"
-        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON cloud.* TO cloud@'localhost';"
-        sudo mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+        sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
+        sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "CREATE USER IF NOT EXISTS ${{ secrets.DB_USER }}@'localhost' IDENTIFIED BY '${{ secrets.DB_USER_PASSWORD }}';"
+        sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO ${{ secrets.DB_USER }}@'localhost';"
+        sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "FLUSH PRIVILEGES;"
     - name: Set up Python
       uses: actions/setup-python@v2
       with:

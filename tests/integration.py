@@ -12,7 +12,7 @@ def test_create_and_get_user():
     }
 
     response = requests.post(f"{API_BASE_URL}", json=user_data)
-    assert response.status_code == 400
+    assert response.status_code == 201
 
     response = requests.get(f"{API_BASE_URL}/self", auth=("user5@test.com", "testpassword"))
     assert response.status_code == 200

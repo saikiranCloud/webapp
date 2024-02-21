@@ -60,6 +60,7 @@ build {
   provisioner "file" {
     source = "webapp.zip"
     destination = "/home/sai/webapp.zip"
+    only        = ["file_exists('webapp.zip')"]
   }
 
   provisioner "shell" {

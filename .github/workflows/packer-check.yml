@@ -13,15 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Setup `packer`
-        uses: hashicorp/setup-packer@main
-        with:
-          version: "latest"
+      # - name: Setup `packer`
+      #   uses: hashicorp/setup-packer@main
+      #   with:
+      #     version: "latest"
 
-      - name: Run packer init
-        run: |
-          packer init .
+      # - name: Run packer init
+      #   run: |
+      #     packer init .
 
-      - name: Run packer validate
+      # - name: Run packer validate
+      #   run: |
+      #     packer validate .
+
+      - name: get dir
         run: |
-          packer validate .
+          pwd
+          ls -la

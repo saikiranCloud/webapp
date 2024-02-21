@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
  
     steps:
-      - name: dir
-        run: |
-         pwd
-         ls -la
       - name: Install Packer
         run: |
           curl -fsSL https://releases.hashicorp.com/packer/1.7.5/packer_1.7.5_linux_amd64.zip -o packer.zip

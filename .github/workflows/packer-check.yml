@@ -19,10 +19,10 @@ jobs:
           packer --version
 
       - name: Initialize Packer
-        run: packer init main.pkr.hcl
+        run: packer init .
 
       - name: Format Packer template
-        run: packer fmt main.pkr.hcl
+        run: packer fmt .
 
       - name: Validate Packer template
-        run: packer validate -var 'project_id=${{ secrets.GOOGLE_CONFIG }}' main.pkr.hcl
+        run: packer validate -var 'project_id=${{ secrets.GOOGLE_CONFIG }}'.

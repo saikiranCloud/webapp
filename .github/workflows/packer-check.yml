@@ -19,19 +19,10 @@ jobs:
         with:
           version: "latest"
 
-      - name: Debug info
-        run: |
-          pwd
-          ls -la
+      - name: Run packer init
+        id: init
+        run: "packer init ."
 
-      - name: init Packer
-        run: |
-          packer init .
-        
-      - name: Format Packer
-        run: |
-          packer fmt .
-
-      - name: Validate Packer
-        run: |
-          packer validate .
+      - name: Run packer validate
+        id: validate
+        run: "packer validate ."

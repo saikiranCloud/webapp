@@ -39,7 +39,7 @@ Simple Flask application for user registration and management, including a basic
 
 1. URL: /healthz
     Method: GET
-    Description: Returns the health status of the application.
+    Description: Returns health status of the application.
     User Registration:
 
 2. URL: /v1/user

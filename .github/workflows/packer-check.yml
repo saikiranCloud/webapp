@@ -21,3 +21,8 @@ jobs:
       - name: init
         run: |
           packer init .
+          
+      - name: fmt
+        run: |
+          packer fmt .
+          

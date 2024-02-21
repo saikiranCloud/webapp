@@ -18,15 +18,24 @@ jobs:
         with:
           version: "latest"
 
+      - name: Debug info
+        run: |
+          ls -al
+          
       - name: init
         run: |
-          packer init .
-          
+          echo "Running packer init..."
+          packer init
+          echo "Packer init completed."
+
       - name: fmt
         run: |
-          packer fmt .
-          
+          echo "Running packer fmt..."
+          packer fmt
+          echo "Packer fmt completed."
+
       - name: validate
         run: |
-          packer validate .
-          
+          echo "Running packer validate..."
+          packer validate 
+          echo "Packer validate completed."

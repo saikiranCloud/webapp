@@ -12,16 +12,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Packer
-        uses: hashicorp/setup-packer@v1
+-------------------------
+      - name: Setup `packer`
+        uses: hashicorp/setup-packer@main
+        id: setup
         with:
-          packer_version: '1.7.3'
+          version: "latest"
 
-      - name: Format Packer
-        run: packer fmt -check .
+      - name: Run packer init
+        id: init
+        run: "packer init ."
 
-      - name: Validate Packer
-        run: |
-          packer validate .
-          packer build .
+      - name: Run packer format
+        id: fmt
+        run: "packer fmt -check ."
+
+      - name: Run packer validate
+        id: validate
+        run: "packer validate ."
+
+      - name: Run `packer build`
+        id: build
+        run: "packer build ."

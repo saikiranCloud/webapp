@@ -75,4 +75,5 @@ jobs:
 
     - name: build image
       run: |
+        sudo packer init .
         sudo packer build .

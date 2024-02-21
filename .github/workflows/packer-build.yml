@@ -57,7 +57,7 @@ jobs:
       with: 
         credentials_json: ${{ secrets.GOOGLE_CONFIG }}
       env: 
-        credentials_json: ${{ secrets.GOOGLE_CONFIG }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CONFIG }}
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2

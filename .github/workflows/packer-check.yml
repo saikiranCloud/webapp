@@ -25,10 +25,10 @@ jobs:
           ls -la
 
       - name: init Packer
-        run: packer init .
+        run: "packer init ."
         
       - name: Format Packer
-        run: packer fmt .
+        run: "packer fmt ."
 
       - name: Validate Packer
         run: |

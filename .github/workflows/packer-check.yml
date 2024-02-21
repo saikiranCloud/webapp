@@ -18,7 +18,10 @@ jobs:
         id: setup
         with:
           version: "latest"
-          
+
+      - name: init Packer
+        run: packer init .
+        
       - name: Format Packer
         run: packer fmt .
 

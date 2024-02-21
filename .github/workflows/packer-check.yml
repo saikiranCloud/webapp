@@ -17,3 +17,7 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: "latest"
+
+      - name: init
+        run: |
+          packer init .

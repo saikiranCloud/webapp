@@ -19,6 +19,11 @@ jobs:
         with:
           version: "latest"
 
+      - name: Debug info
+        run: |
+          pwd
+          ls -la
+
       - name: init Packer
         run: packer init .
         
@@ -28,4 +33,3 @@ jobs:
       - name: Validate Packer
         run: |
           packer validate .
-          packer build .

@@ -74,6 +74,11 @@ jobs:
       with:
         name: webapp
         path: ./webapp.zip
+        
+    - name: Set up Packer
+      uses: hashicorp/setup-packer@main
+      with:
+        version: latest
 
     - name: build image
       run: |

@@ -17,6 +17,3 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: "latest"
-
-      - name: dir
-        run: pwd

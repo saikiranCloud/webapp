@@ -19,9 +19,9 @@ jobs:
         with:
           version: "latest"
           
-      - name: Build Artifact
-        run: |
-          zip -r webapp.zip .
+      # - name: Build Artifact
+      #   run: |
+      #     zip -r webapp.zip .
           
       - name: Run packer init
         id: init

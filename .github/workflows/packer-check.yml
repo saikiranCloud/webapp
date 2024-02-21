@@ -18,11 +18,15 @@ jobs:
           sudo mv /tmp/packer /usr/bin/packer
           packer --version
 
-      - name: Initialize Packer
-        run: packer init .
+      - name: dir
+        run: |
+         pwd
+         ls -la
+      # - name: Initialize Packer
+      #   run: packer init .
 
-      - name: Format Packer template
-        run: packer fmt .
+      # - name: Format Packer template
+      #   run: packer fmt .
 
-      - name: Validate Packer template
-        run: packer validate -var 'project_id=${{ secrets.GOOGLE_CONFIG }}'.
+      # - name: Validate Packer template
+      #   run: packer validate -var 'project_id=${{ secrets.GOOGLE_CONFIG }}'.

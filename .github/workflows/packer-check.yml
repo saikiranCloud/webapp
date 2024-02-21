@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
  
     steps:
-      # - name: Create webapp.zip
-      #   run: |
-      #       zip -r webapp.zip .
-
       - name: dir
         run: |
          pwd

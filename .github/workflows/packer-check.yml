@@ -19,7 +19,7 @@ jobs:
           version: latest
 
       - name: Format Packer
-        run: packer fmt .
+        run: packer fmt -check .
 
       - name: Validate Packer
         run: |

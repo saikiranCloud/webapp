@@ -19,9 +19,7 @@ jobs:
           version: "latest"
 
       - name: Run packer init
-        run: |
-          packer init .
+        run: packer init .
 
       - name: Run packer validate
-        run: |
-          packer validate .
+        run: packer validate .

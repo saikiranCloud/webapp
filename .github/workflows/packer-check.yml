@@ -18,12 +18,10 @@ jobs:
         with:
           version: latest
 
-      - name: Init Packer
-        run: packer init .
-
       - name: Format Packer
         run: packer fmt .
 
       - name: Validate Packer
         run: |
+          packer init .
           packer validate .

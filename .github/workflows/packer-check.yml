@@ -1,41 +1,32 @@
-name: Packer CI
-
+name: Workflow CI
+ 
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  packer-check:
+  build:
+    name: test-checker
     runs-on: ubuntu-latest
-
+ 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Setup `packer`
-        uses: hashicorp/setup-packer@main
-        with:
-          version: "latest"
+      - name: Create webapp.zip
+        run: |
+            zip -r webapp.zip .
+            
+      - name: Install Packer
+        run: |
+          curl -fsSL https://releases.hashicorp.com/packer/1.7.5/packer_1.7.5_linux_amd64.zip -o packer.zip
+          unzip packer.zip -d /tmp
+          sudo mv /tmp/packer /usr/bin/packer
+          packer --version
 
-      - name: Debug info
-        run: |
-          ls -al
-          
-      - name: init
-        run: |
-          echo "Running packer init..."
-          packer init
-          echo "Packer init completed."
+      - name: Initialize Packer
+        run: packer init main.pkr.hcl
 
-      - name: fmt
-        run: |
-          echo "Running packer fmt..."
-          packer fmt
-          echo "Packer fmt completed."
+      - name: Format Packer template
+        run: packer fmt main.pkr.hcl
 
-      - name: validate
-        run: |
-          echo "Running packer validate..."
-          packer validate 
-          echo "Packer validate completed."
+      - name: Validate Packer template
+        run: packer validate -var 'project_id=${{ secrets.GOOGLE_CONFIG }}' main.pkr.hcl

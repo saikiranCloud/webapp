@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Build Artifact
+        run: |
+          zip -r webapp.zip .
         
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
@@ -25,7 +29,7 @@ jobs:
 
       - name: Run packer format
         id: fmt
-        run: "packer fmt -check ."
+        run: "packer fmt ./main.pkr.hcl"
 
       - name: Run packer validate
         id: validate

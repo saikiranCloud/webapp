@@ -40,15 +40,15 @@ packer {
 }
 
 source "googlecompute" "centos-python" {
-  project_id = var.project_id
-  source_image  = var.source_image
-  image_name = "csye6225-${formatdate("YYYY-MM-DD-hh-mm-ss",timestamp())}"
-  zone = var.zone
-  disk_size = var.disk_size
+  project_id           = var.project_id
+  source_image         = var.source_image
+  image_name           = "csye6225-${formatdate("YYYY-MM-DD-hh-mm-ss", timestamp())}"
+  zone                 = var.zone
+  disk_size            = var.disk_size
   wait_to_add_ssh_keys = "20s"
-  network = var.network
-  communicator = "ssh"
-  ssh_username = var.ssh_username
+  network              = var.network
+  communicator         = "ssh"
+  ssh_username         = var.ssh_username
 }
 
 build {
@@ -58,7 +58,7 @@ build {
   }
 
   provisioner "file" {
-    source = "webapp.zip"
+    source      = "webapp.zip"
     destination = "/home/sai/webapp.zip"
     only        = ["file_exists('webapp.zip')"]
   }

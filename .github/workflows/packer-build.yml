@@ -47,6 +47,8 @@ jobs:
 
   gcloud:
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CONFIG }}
     needs: test
     steps:
     - name: Checkout code
@@ -56,9 +58,7 @@ jobs:
       uses: google-github-actions/auth@v2
       with: 
         credentials_json: ${{ secrets.GOOGLE_CONFIG }}
-      env: 
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CONFIG }}
-
+        
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
 

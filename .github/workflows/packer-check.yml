@@ -25,7 +25,7 @@ jobs:
 
       - name: Run packer format
         id: fmt
-        run: "packer fmt ./main.pkr.hcl"
+        run: "packer fmt ."
 
       - name: Run packer validate
         id: validate

@@ -65,14 +65,8 @@ jobs:
 
     - name: Build Artifact
       run: |
-        zip -r webapp.zip .
+        zip -r webapp.zip ./
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: webapp
-        path: ./webapp.zip
-        
     - name: Set up Packer
       uses: hashicorp/setup-packer@main
       with:

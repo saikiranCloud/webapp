@@ -65,7 +65,7 @@ jobs:
 
     - name: Use gcloud CLI
       run: |
-         export GOOGLE_APPLICATION_CREDENTIALS=${{GOOGLE_APPLICATION_CREDENTIALS}}
+         export GOOGLE_APPLICATION_CREDENTIALS=${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
     - name: Build Artifact
       run: |

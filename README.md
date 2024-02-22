@@ -7,7 +7,7 @@ Simple Flask application for user registration and management, including a basic
 ### Prerequisites
 - Python 3.x
 - MySQL database
-
+  
 ### Installation
 
 1. Clone the repository:

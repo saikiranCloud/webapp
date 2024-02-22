@@ -63,7 +63,9 @@ jobs:
       uses: google-github-actions/setup-gcloud@v2
 
     - name: Use gcloud CLI
-      run: 'gcloud info'
+      run: |
+        'gcloud info'
+         gcloud auth application-default login 
 
     - name: Build Artifact
       run: |

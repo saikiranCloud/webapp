@@ -62,6 +62,11 @@ build {
     destination = "/tmp/webapp.zip"
   }
 
+  provisioner "file" {
+    source      = "webapp.service"
+    destination = "/tmp/webapp.service"
+  }
+
   provisioner "shell" {
     scripts = ["scripts/setup.sh"]
   }

@@ -4,6 +4,7 @@ sudo mkdir /home/csye6225/webapp_main
 
 sudo mv /tmp/webapp.zip /home/csye6225/webapp_main
 
+
 sudo unzip /home/csye6225/webapp_main/webapp.zip -d /home/csye6225/webapp_main
 
 sudo rm /home/csye6225/webapp_main/webapp.zip
@@ -20,7 +21,8 @@ sudo pip3 install setuptools-rust bcrypt blinker certifi cffi charset-normalizer
 
 sudo chown -R csye6225:csye6225 /home/csye6225/webapp_main/
 
-sudo cp /home/csye6225/webapp_main/webapp/webapp.service /etc/systemd/system/webapp.service
+sudo cp /tmp/webapp.service /etc/systemd/system/webapp.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable webapp
+sudo systemctl start webapp

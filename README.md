@@ -9,7 +9,6 @@ Simple Flask application for user registration and management, including a basic
 - MySQL database
   
 ### Installation
-
 1. Clone the repository:
 
    ```bash

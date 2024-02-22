@@ -2,7 +2,7 @@
 echo "in app.sh"
 sudo mkdir /home/csye6225/webapp_main
 
-sudo mv ~/webapp.zip /home/csye6225/webapp_main
+sudo mv /tmp/webapp.zip /home/csye6225/webapp_main
 
 sudo unzip /home/csye6225/webapp_main/webapp.zip -d /home/csye6225/webapp_main
 

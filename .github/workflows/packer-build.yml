@@ -65,7 +65,7 @@ jobs:
 
     - name: Use gcloud CLI
       run: |
-         gcloud auth application-default login
+         export GOOGLE_APPLICATION_CREDENTIALS=${{GOOGLE_APPLICATION_CREDENTIALS}}
 
     - name: Build Artifact
       run: |

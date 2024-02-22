@@ -63,10 +63,6 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
 
-    - name: Use gcloud CLI
-      run: |
-         export GOOGLE_APPLICATION_CREDENTIALS=${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-
     - name: Build Artifact
       run: |
         zip -r webapp.zip .
@@ -84,5 +80,5 @@ jobs:
 
     - name: build image
       run: |
-        sudo packer init .
-        sudo packer build .
+        packer init .
+        packer build .

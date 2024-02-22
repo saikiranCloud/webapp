@@ -55,3 +55,4 @@ Simple Flask application for user registration and management, including a basic
 4. URL: /v1/user/self
     Method: PUT
     Description: Update details of the authenticated user.
+    

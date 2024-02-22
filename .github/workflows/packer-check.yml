@@ -17,7 +17,11 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-
+          
+      - name: Create webapp.zip
+        run: |
+            zip -r webapp.zip ./
+            
       - name: Format Packer
         run: packer fmt -check .
 

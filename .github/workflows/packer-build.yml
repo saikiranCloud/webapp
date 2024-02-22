@@ -65,7 +65,7 @@ jobs:
 
     - name: Use gcloud CLI
       run: |
-         gcloud auth application-default login 
+         gcloud auth application-default login
 
     - name: Build Artifact
       run: |

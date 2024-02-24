@@ -5,13 +5,12 @@ After=network.target
 [Service]
 User=csye6225
 Group=csye6225
-WorkingDirectory=/home/csye6225/webapp_main/
+WorkingDirectory=/opt/webapp
 Environment="DB_USER=clouddev"
 Environment="DB_PASSWORD=Cloud123"
 Environment="DB_NAME=cloud"
 Environment="FLASK_APP=main.py"
-Environment="FLASK_ENV=production"
-ExecStart=/home/sai/venv/bin/python /home/csye6225/webapp_main/main.py
+ExecStart=/home/sai/venv/bin/python /opt/webapp/main.py
 Restart=always
 RestartSec=3
 StandardOutput=syslog

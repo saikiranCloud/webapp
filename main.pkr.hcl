@@ -27,7 +27,7 @@ variable "machine_type" {
 }
 
 variable "ssh_username" {
-  defaulting = "sai"
+  default = "sai"
 }
 
 packer {

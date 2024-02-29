@@ -15,14 +15,14 @@ load_dotenv()
 db_user = os.environ['DB_USER']
 db_password = os.environ['DB_PASSWORD']
 db_name = os.environ['DB_NAME']
+db_host = os.environ['DB_HOST']
 
-
-engine = create_engine(f"mysql+pymysql://{db_user}:{db_password}@localhost/")
+engine = create_engine(f"mysql+pymysql://{db_user}:{db_password}@{db_host}/")
 with engine.connect() as connection:
     connection.execute(text(f"CREATE DATABASE IF NOT EXISTS {db_name}"))
     connection.execute(text(f"USE {db_name}"))
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_password}@localhost/{db_name}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)

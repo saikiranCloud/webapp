@@ -23,7 +23,7 @@ variable "disk_type" {
 }
 
 variable "machine_type" {
-  default = "e2-micro"
+  default = "e2-medium"
 }
 
 variable "ssh_username" {

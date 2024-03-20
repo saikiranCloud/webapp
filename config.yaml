@@ -8,15 +8,15 @@ logging:
   processors:
     my-app-processor:
       type: parse_json
-      time_key: jsonPayload.time
+      time_key: jsonPayload.timestamp
       time_format: "%Y-%m-%dT%H:%M:%S.%L%Z"
-    extract_severity:
-      type: extract_fields
+    move_severity:
+      type: modify_fields
       fields:
-      level:
-        regex: level="(?<level>\w+)"
+        severity:
+          move_from: jsonPayload.level
   service:
     pipelines:
       default_pipeline:
         receivers: [my-app-receiver]
-        processors: [my-app-processor,move_severity
+        processors: [my-app-processor,move_severity]

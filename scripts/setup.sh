@@ -4,6 +4,10 @@
 sudo dnf install -y unzip
 sudo dnf install python3 python3-pip
 echo "after python"
+
+#install ops
+curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
+sudo bash add-google-cloud-ops-agent-repo.sh --also-install
 # sudo yum install -y mysql-server
 # echo "after mysql"
 # sudo systemctl start mysqld

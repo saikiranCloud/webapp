@@ -1,4 +1,4 @@
-import os
+import os,time
 from flask import Flask, jsonify, request, make_response
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
@@ -7,9 +7,41 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import create_engine,text
 from flask_httpauth import HTTPBasicAuth
 import uuid,regex
+import logging
+from logging.handlers import RotatingFileHandler
+from pythonjsonlogger import jsonlogger
 
+logger = logging.getLogger()
 
 app = Flask(__name__)
+
+# Set up structured logging
+class CustomJsonFormatter(jsonlogger.JsonFormatter):
+    def add_fields(self, log_record, record, message_dict):
+        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
+        # Add level and time fields
+        log_record['level'] = record.levelname
+        log_record['time'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record.created))
+
+# Create logger and add handler
+formatter = CustomJsonFormatter()
+#json_formatter = logging.Formatter('{"time": "%(asctime)s", "level": "%(levelname)s", "message": %(message)s}')
+
+if os.name == 'posix':
+    log_dir = '/var/log/webapp'
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    json_log_handler = RotatingFileHandler(os.path.join(log_dir, 'requests.log'), maxBytes=10000, backupCount=1)
+else:
+    json_log_handler = RotatingFileHandler('requests.log', maxBytes=10000, backupCount=1)
+
+json_log_handler.setFormatter(formatter)
+# app.logger.info("Testing logging permissions")
+logger.addHandler(json_log_handler)
+logger.setLevel(logging.INFO)
+
+formatter.default_time_format = '%Y-%m-%dT%H:%M:%SZ'
+
 load_dotenv()
 
 db_user = os.environ['DB_USER']
@@ -230,4 +262,4 @@ def update_user():
         return response
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000,debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=False)

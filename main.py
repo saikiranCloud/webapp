@@ -1,4 +1,4 @@
-import os,time
+import os,time,json
 from flask import Flask, jsonify, request, make_response
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +10,10 @@ import uuid,regex
 import logging
 from logging.handlers import RotatingFileHandler
 from pythonjsonlogger import jsonlogger
+from google.cloud import pubsub_v1
+from datetime import datetime, timedelta
+
+PUBSUB_TOPIC = "verify_email"
 
 logger = logging.getLogger()
 
@@ -68,7 +72,9 @@ def is_connected():
     except:
         return False
 
-
+def generate_verification_token():
+    verification_token = str(uuid.uuid4())
+    return verification_token
 class user_data(db.Model):
     __tablename__ = 'user_data'
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()), unique=True, nullable=False)
@@ -79,7 +85,10 @@ class user_data(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     account_created = db.Column(db.DateTime, server_default=db.func.now())
     account_updated = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-
+    is_verified = db.Column(db.Boolean, default=False, nullable=False)
+    verification_token = db.Column(db.String(255), nullable=True)
+    mail_sent = db.Column(db.Boolean, default=False, nullable=False)
+    mail_sent_time = db.Column(db.DateTime, nullable=True)
 
 with app.app_context():
     db.create_all()
@@ -159,10 +168,10 @@ def register():
 
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(user_password.encode('utf-8'), salt=salt).decode('utf-8')
-
+    token = generate_verification_token()
     try:
         new_user = user_data(email=user_email, password_hash=hashed_password, salt=salt,
-                             first_name=user_firstname, last_name=user_lastname)
+                             first_name=user_firstname, last_name=user_lastname,verification_token=token)
         db.session.add(new_user)
         db.session.commit()
         user = user_data.query.filter_by(email=user_email).first()
@@ -174,7 +183,24 @@ def register():
         'account_created': user.account_created,
         'account_updated': user.account_updated
     }
+        payload = {
+            "user_id": user.id,
+            "email": user.email,
+            "verification_token": user.verification_token
+        }
 
+        payload_json = json.dumps(payload)
+        payload_bytes = payload_json.encode('utf-8')
+
+        # Publish message to Pub/Sub topic
+        publisher = pubsub_v1.PublisherClient()
+        project_id = os.environ.get('PROJECT_ID')
+        topic_name = PUBSUB_TOPIC
+        topic_path = publisher.topic_path(project_id, topic_name)
+        future = publisher.publish(topic_path, data=payload_bytes)
+        message_id = future.result()
+
+        print(f"Published message ID: {message_id}")
         response = make_response(jsonify(user_info), 201)
         return response
     # https://stackoverflow.com/questions/24522290/cannot-catch-sqlalchemy-integrityerror
@@ -184,6 +210,33 @@ def register():
         response = make_response("", 400)
         return response
 
+@app.route('/v1/user/verify', methods=['GET'])
+def verify_user():
+    verify_token = request.args.get('verify_token')
+    if not verify_token:
+        response = make_response("", 400)
+        return response
+
+    user = user_data.query.filter_by(verification_token=verify_token).first()
+    if not user:
+        response = make_response(jsonify({"error": "Invalid verification token"}), 404)
+        return response
+
+    if user.mail_sent_time and datetime.now() - user.mail_sent_time > timedelta(minutes=2):
+        response = make_response(jsonify({"error": "Mail sent has been expired"}), 400)
+        return response
+
+    # Update the user's is_verified status
+    user.is_verified = True
+    try:
+        db.session.commit()
+        response = make_response(jsonify({"message": "User verified successfully"}), 200)
+        return response
+    except IntegrityError as e:
+        db.session.rollback()
+        print(e)
+        response = make_response(jsonify({"error":"Failed to verify user"}), 500)
+        return response
 
 @auth.verify_password
 def verify_password(username, password):
@@ -202,7 +255,11 @@ def get_user():
     if not user:
         response = make_response("", 404)
         return response
-
+    
+    if not user.is_verified:
+        response = make_response(jsonify({"error":"User is not verified, Please verify!"}), 403)
+        return response
+    
     user_info = {
         'id': user.id,
         'email': user.email,
@@ -227,6 +284,10 @@ def update_user():
         response = make_response("", 404)
         return response
 
+    if not user.is_verified:
+        response = make_response(jsonify({"error":"User is not verified, Please verify!"}), 403)
+        return response
+    
     update_data = request.get_json()
     valid_keys = ['password', 'first_name', 'last_name']
     are_keys_valid = all(key in valid_keys for key in update_data.keys())

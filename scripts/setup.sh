@@ -2,7 +2,7 @@
 # Install application-specific dependencies
 # sudo dnf update -y
 sudo dnf install -y unzip
-sudo dnf install python3.8
+sudo dnf install -y python3.8
 echo "after python"
 
 #install ops

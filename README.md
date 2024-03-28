@@ -3,6 +3,7 @@
 Simple Flask application for user registration and management, including a basic health check endpoint.
 ## Getting Started
 
+
 ### Prerequisites
 - Python 3.x
 - MySQL database

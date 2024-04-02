@@ -1,5 +1,4 @@
 # webapp
- 
 Simple Flask application for user registration and management, including a basic health check endpoint.
 ## Getting Started
 

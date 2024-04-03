@@ -89,6 +89,7 @@ class user_data(db.Model):
     verification_token = db.Column(db.String(255), nullable=True)
     mail_sent = db.Column(db.Boolean, default=False, nullable=False)
     mail_sent_time = db.Column(db.DateTime, nullable=True)
+    expiration_time = db.Column(db.DateTime, nullable=True)
 
 with app.app_context():
     db.create_all()
@@ -170,8 +171,11 @@ def register():
     hashed_password = bcrypt.hashpw(user_password.encode('utf-8'), salt=salt).decode('utf-8')
     token = generate_verification_token()
     try:
+        mail_sent_time = datetime.now()
+        expiration_time = mail_sent_time + timedelta(minutes=2)
+
         new_user = user_data(email=user_email, password_hash=hashed_password, salt=salt,
-                             first_name=user_firstname, last_name=user_lastname,verification_token=token)
+                             first_name=user_firstname, last_name=user_lastname,verification_token=token,mail_sent_time=mail_sent_time,expiration_time=expiration_time)
         db.session.add(new_user)
         db.session.commit()
         user = user_data.query.filter_by(email=user_email).first()

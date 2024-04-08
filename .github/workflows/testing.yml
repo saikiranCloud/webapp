@@ -46,11 +46,11 @@ jobs:
       - name: 'Generating Template Name with Current Timestamp'
         id: generate-timestamp
         run: |
-          echo "TEMPLATE-NAME=csye6225-vm-$(date +%Y-%m-%d-%H-%M-%S)" >> $GITHUB_ENV
+          echo "TEMPLATE_NAME=csye6225-vm-$(date +%Y-%m-%d-%H-%M-%S)" >> $GITHUB_ENV
 
       - name: 'Creating instance template'
         run: |
-          gcloud compute instance-templates create $TEMPLATE-NAME \
+          gcloud compute instance-templates create $TEMPLATE_NAME \
             --machine-type=${{ env.MACHINE_TYPE }} \
             --tags=${{ env.TAGS }} \
             --image=${{ env.IMAGE }} \
@@ -66,13 +66,13 @@ jobs:
         run: |
           gcloud compute instance-groups managed set-instance-template \
            ${{ env.GROUP_NAME }} \
-            --template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE-NAME }} \
+            --template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \
             --region=${{ env.REGION }}
 
       - name: 'Start rolling update'
         run: |
           gcloud compute instance-groups managed rolling-action start-update ${{ env.GROUP_NAME }} \
-            --version=template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE-NAME }} \
+            --version=template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \
             --region=${{ env.REGION }} \
             --type=proactive
 

@@ -55,7 +55,7 @@ jobs:
           gcloud compute instance-templates create $TEMPLATE_NAME \
             --machine-type=${{ env.MACHINE_TYPE }} \
             --tags=${{ env.TAGS }} \
-            --image=${{ env.MY_MI }} \
+            --image=${{ env.IMAGE }} \
             --region=${{ env.REGION }} \
             --instance-template-region=${{ env.REGION }} \
             --boot-disk-size=${{ env.BOOT_DISK_SIZE }} \

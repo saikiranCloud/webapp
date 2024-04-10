@@ -38,4 +38,4 @@ jobs:
     - name: Wait and Run Integration Test
       run: |
         sleep 15
-        python tests/integration.py
+        pytest tests/integration.py

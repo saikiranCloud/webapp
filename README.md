@@ -27,7 +27,6 @@ Simple Flask application for user registration and management, including a basic
     ```bash
     python app.py
 
-
 ## Endpoints
 ### Health Check:
 

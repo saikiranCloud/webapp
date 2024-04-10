@@ -67,7 +67,7 @@ jobs:
       REGION: ${{vars.REGION}}
       GROUP_NAME: ${{ secrets.GROUP_NAME }}
       DB_INSTANCE_CONNECTION: ${{vars.DB_INSTANCE_CONNECTION_NAME}}
-      PROJECT = ${{vars.PROJECT_ID}}
+      PROJECT : ${{vars.PROJECT_ID}}
 
     needs: test
     steps:

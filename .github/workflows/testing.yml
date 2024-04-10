@@ -9,22 +9,22 @@ jobs:
     env:
       GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       PACKER_GITHUB_API_TOKEN: ${{secrets.PACKER_GITHUB_API_TOKEN}}
-      MACHINE_TYPE: e2-medium
-      TAGS: webapp
-      IMAGE: csye6225-2024-04-03-19-05-10
-      BOOT_DISK_SIZE: 100GB
-      BOOT_DISK_TYPE: pd-balanced
-      NETWORK: vpc
-      SUBNET: webapp
-      NETWORK_TIER: PREMIUM
-      SERVICE_ACCOUNT: vm-service-account@tf-gcp-infra-002207381.iam.gserviceaccount.com
-      SCOPES: "https://www.googleapis.com/auth/cloud-platform"
-      DB_USER: cloudsql_user
-      DB_PASSWORD: rPUFlJ9r7uRn9AYQ
-      DB_HOST: 10.228.0.2
-      DB_NAME: cloudsql_database
-      REGION: us-east1
-      GROUP_NAME: webapp-instance-group-manager
+      MACHINE_TYPE: ${{vars.MACHINE_TYPE}}
+      TAGS: ${{vars.TAGS}}
+      IMAGE: ${{ secrets.IMAGE }}
+      BOOT_DISK_SIZE: ${{vars.BOOT_DISK_SIZE}} 
+      BOOT_DISK_TYPE: ${{vars.BOOT_DISK_TYPE}} 
+      NETWORK: ${{vars.NETWORK}} 
+      SUBNET: ${{vars.SUBNET}}
+      NETWORK_TIER: ${{vars.NETWORK_TIER}} 
+      SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }} 
+      SCOPES: ${{vars.SCOPES}}
+      DB_USER: ${{ secrets.SQL_DB_USER }}
+      DB_PASSWORD: ${{ secrets.SQL_DB_PASSWORD }}
+      DB_HOST: ${{ secrets.SQL_DB_HOST }} 
+      DB_NAME: ${{ secrets.SQL_DB_NAME }}
+      REGION: ${{vars.REGION}}
+      GROUP_NAME: ${{ secrets.GROUP_NAME }}
 
     steps:
       - name: Checkout code

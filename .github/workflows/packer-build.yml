@@ -15,7 +15,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
     - name: Configure MySQL
       run: |
         sudo service mysql start
@@ -23,7 +22,6 @@ jobs:
         sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "CREATE USER IF NOT EXISTS ${{ secrets.DB_USER }}@'localhost' IDENTIFIED BY '${{ secrets.DB_USER_PASSWORD }}';"
         sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO ${{ secrets.DB_USER }}@'localhost';"
         sudo mysql -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "FLUSH PRIVILEGES;"
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -34,16 +32,15 @@ jobs:
         python -m venv venv
         source venv/bin/activate
         
-    - name: Install dependencies and run integration tests
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt 
-        export DB_USER=${{ secrets.DB_USER }}
-        export DB_PASSWORD=${{ secrets.DB_USER_PASSWORD }}
-        export DB_NAME=${{ secrets.DB_NAME }}
-        python main.py &
+        pip install pytest requests 
+      
+    - name: Wait and Run Integration Test
+      run: |
         sleep 15
-        python tests/integration.py
+        pytest tests/integration.py
 
   gcloud:
     runs-on: ubuntu-latest

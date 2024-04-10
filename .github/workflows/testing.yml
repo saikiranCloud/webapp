@@ -68,7 +68,7 @@ jobs:
       - name: 'Configure MIG to use new template'
         run: |
           gcloud compute instance-groups managed set-instance-template \
-           ${{ env.MIG_NAME }} \
+           ${{ env.GROUP_NAME }} \
             --template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \
             --region=${{ env.REGION }}
 

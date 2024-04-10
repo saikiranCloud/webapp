@@ -9,7 +9,6 @@ Simple Flask application for user registration and management, including a basic
 ### Installation
 1. Clone the repository:
 
-
    ```bash
    git clone https://github.com/Saikiran8/webapp_remote.git
 

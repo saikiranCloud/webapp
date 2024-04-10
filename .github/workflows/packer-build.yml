@@ -65,6 +65,8 @@ jobs:
       GROUP_NAME: ${{ secrets.GROUP_NAME }}
       DB_INSTANCE_CONNECTION: ${{secrets.DB_INSTANCE_CONNECTION_NAME}}
       PROJECT : ${{secrets.PROJECT_ID}}
+      KEYRING : ${{secrets.KEYRING_NAME}}
+      VM_KEY : ${{secrets.VM_KEY}}
 
     needs: test
     steps:
@@ -112,6 +114,7 @@ jobs:
           --image=${{ env.MY_MI }} \
           --region=${{ env.REGION }} \
           --instance-template-region=${{ env.REGION }} \
+          --kms-key=projects/${{env.PROJECT}}/locations/${{ env.REGION }}/keyRings/${{env.KEYRING}}/cryptoKeys/${{env.VM_KEY}} \
           --boot-disk-size=${{ env.BOOT_DISK_SIZE }} \
           --boot-disk-type=${{ env.BOOT_DISK_TYPE }} \
           --network-interface="network=${{ env.NETWORK }},subnet=${{ env.SUBNET }},network-tier=${{ env.NETWORK_TIER }}" \

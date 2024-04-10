@@ -63,18 +63,10 @@ jobs:
             --network-interface="network=${{ env.NETWORK }},subnet=${{ env.SUBNET }},network-tier=${{ env.NETWORK_TIER }}" \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --scopes=${{ env.SCOPES }} \
-            --metadata=startup-script-db-config:"\
-              echo 'DB_USER=${{env.DB_USER}}' >> /opt/webapp/.env && \
-              echo 'DB_PASSWORD=${{env.DB_PASSWORD}}' >> /opt/webapp/.env && \
-              echo 'DB_NAME=${{env.DB_NAME}}' >> /opt/webapp/.env && \
-              echo 'DB_INSTANCE_NAME=${{env.DB_INSTANCE_CONNECTION}}' >> /opt/webapp/.env && \
-              echo 'DB_HOST=\"${{env.DB_HOST}}\"' >> /opt/webapp/.env && \
-              echo 'PROJECT_ID=\"${{env.PROJECT}}\"' >> /opt/webapp/.env"
+            --metadata=startup-script="#! /bin/bash echo 'DB_USER=${{env.DB_USER}}' >> /opt/webapp/.env && echo 'DB_PASSWORD=${{env.DB_PASSWORD}}' >> /opt/webapp/.env && echo 'DB_NAME=${{env.DB_NAME}}' >> /opt/webapp/.env && echo 'DB_INSTANCE_NAME=${{env.DB_INSTANCE_CONNECTION}}' >> /opt/webapp/.env && echo 'DB_HOST=\"${{env.DB_HOST}}\"' >> /opt/webapp/.env && echo 'PROJECT_ID=\"${{env.PROJECT}}\"' >> /opt/webapp/.env"
 
       - name: 'Configure MIG to use new template'
         run: |
-
-        
           gcloud compute instance-groups managed set-instance-template \
            ${{ env.MIG_NAME }} \
             --template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \

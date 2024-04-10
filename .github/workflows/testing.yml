@@ -74,7 +74,7 @@ jobs:
 
       - name: 'Start rolling update'
         run: |
-          gcloud compute instance-groups managed rolling-action start-update ${{ env.MIG_NAME }} \
+          gcloud compute instance-groups managed rolling-action start-update ${{ env.GROUP_NAME }} \
             --version=template=projects/${{ env.GCLOUD_PROJECT }}/regions/${{ env.REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \
             --region=${{ env.REGION }} \
             --type=proactive

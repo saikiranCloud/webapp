@@ -50,12 +50,12 @@ jobs:
         run: |
           echo "TEMPLATE_NAME=csye6225-vm-$(date +%Y-%m-%d-%H-%M-%S)" >> $GITHUB_ENV
 
-      - name: 'create instance template'
+      - name: 'Creating instance template'
         run: |
           gcloud compute instance-templates create $TEMPLATE_NAME \
             --machine-type=${{ env.MACHINE_TYPE }} \
             --tags=${{ env.TAGS }} \
-            --image=${{ env.IMAGE }} \
+            --image=${{ env.MY_MI }} \
             --region=${{ env.REGION }} \
             --instance-template-region=${{ env.REGION }} \
             --boot-disk-size=${{ env.BOOT_DISK_SIZE }} \
@@ -63,13 +63,15 @@ jobs:
             --network-interface="network=${{ env.NETWORK }},subnet=${{ env.SUBNET }},network-tier=${{ env.NETWORK_TIER }}" \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --scopes=${{ env.SCOPES }} \
-            --metadata=startup-script: |
-                echo "DB_USER=${{env.DB_USER}}" >> /opt/webapp/.env \
-                echo "DB_PASSWORD=${{env.DB_PASSWORD}}" >> /opt/webapp/.env \
-                echo "DB_NAME=${{env.DB_NAME}}" >> /opt/webapp/.env \
-                echo "DB_INSTANCE_NAME=${{env.DB_INSTANCE_CONNECTION}}" >> /opt/webapp/.env \
-                echo "DB_HOST=\"${{env.DB_HOST}}\"" >> /opt/webapp/.env \
-                echo "PROJECT_ID=\"${{env.PROJECT}}\"" >> /opt/webapp/.env
+            --metadata=startup-script:"$(cat << EOF
+              echo "DB_USER=${{env.DB_USER}}" >> /opt/webapp/.env
+              echo "DB_PASSWORD=${{env.DB_PASSWORD}}" >> /opt/webapp/.env
+              echo "DB_NAME=${{env.DB_NAME}}" >> /opt/webapp/.env
+              echo "DB_INSTANCE_NAME=${{env.DB_INSTANCE_CONNECTION}}" >> /opt/webapp/.env
+              echo "DB_HOST=\"${{env.DB_HOST}}\"" >> /opt/webapp/.env
+              echo "PROJECT_ID=\"${{env.PROJECT}}\"" >> /opt/webapp/.env
+              EOF
+              )"
 
       - name: 'Configure MIG to use new template'
         run: |

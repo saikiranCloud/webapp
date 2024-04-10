@@ -17,7 +17,7 @@ def mock_get_response():
 def mock_put_response():
     with patch('requests.put') as mock_put:
         yield mock_put
-        
+
 
 def test_create_and_get_user(mock_post_response, mock_get_response):
     mock_post_response.return_value.status_code = 201
@@ -74,3 +74,6 @@ def test_update_and_get_user(mock_put_response, mock_get_response):
     user_info = response.json()
     assert user_info["first_name"] == "Updated"
     assert user_info["last_name"] == "User"
+
+def test_intentional_failure():
+    assert False

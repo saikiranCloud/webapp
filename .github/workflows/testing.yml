@@ -63,7 +63,7 @@ jobs:
             --network-interface="network=${{ env.NETWORK }},subnet=${{ env.SUBNET }},network-tier=${{ env.NETWORK_TIER }}" \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --scopes=${{ env.SCOPES }} \
-            --metadata_startup_script: |
+            --metadata=startup-script: |
                 echo "DB_USER=${{env.DB_USER}}" >> /opt/webapp/.env \
                 echo "DB_PASSWORD=${{env.DB_PASSWORD}}" >> /opt/webapp/.env \
                 echo "DB_NAME=${{env.DB_NAME}}" >> /opt/webapp/.env \

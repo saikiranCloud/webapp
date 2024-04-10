@@ -63,7 +63,7 @@ jobs:
             --network-interface="network=${{ env.NETWORK }},subnet=${{ env.SUBNET }},network-tier=${{ env.NETWORK_TIER }}" \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --scopes=${{ env.SCOPES }} \
-            --metadata=startup-script="echo "DB_USER=${{env.DB_USER}}" >> /opt/webapp/.env && echo "DB_PASSWORD=${{env.DB_PASSWORD}}" >> /opt/webapp/.env && echo "DB_NAME=${{env.DB_NAME}}" >> /opt/webapp/.env && echo "DB_INSTANCE_NAME=${{env.DB_INSTANCE_CONNECTION}}" >> /opt/webapp/.env && echo "DB_HOST=\"${{env.DB_HOST}}\"" >> /opt/webapp/.env && echo "PROJECT_ID=\"${{env.PROJECT}}\"" >> /opt/webapp/.env"
+            --metadata=DB_USER=cloudsql_user,DB_PASSWORD=NB5UcdPjbxyCcy5d,DB_NAME=cloudsql_database,DB_INSTANCE_NAME=tf-gcp-infra-002207381:us-central1:cloudsql-instance,DB_HOST="10.82.0.2",PROJECT_ID="tf-gcp-infra-002207381"
 
       - name: 'Configure MIG to use new template'
         run: |

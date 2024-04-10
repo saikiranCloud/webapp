@@ -1,9 +1,8 @@
 name: GitHub action
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches: ["main"]
 
 env:
   HOST: ${{ secrets.HOST }}

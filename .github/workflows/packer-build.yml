@@ -115,7 +115,6 @@ jobs:
           --instance-template-region=${{ env.REGION }} \
           --boot-disk-size=${{ env.BOOT_DISK_SIZE }} \
           --boot-disk-type=${{ env.BOOT_DISK_TYPE }} \
-          --boot-disk-kms-key =projects/${{env.PROJECT}}/locations/${{ env.REGION }}/keyRings/${{env.KEYRING}}/cryptoKeys/${{env.VM_KEY}} \
           --network-interface="network=${{ env.NETWORK }},subnet=${{ env.SUBNET }},network-tier=${{ env.NETWORK_TIER }}" \
           --service-account=${{ env.SERVICE_ACCOUNT }} \
           --scopes=${{ env.SCOPES }} \
